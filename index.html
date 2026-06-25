@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCTiers — Overall Rankings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Russo+One&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0c111b; --bg-1:#121822; --bg-2:#1a2332; --bg-3:#232f3f;
+    --border:#3a4a5a4d; --border-strong:#3a4a5ab3;
+    --txt:#ffffff; --txt-2:#b0b0b0; --txt-mut:#808080;
+    --red:#ff0000; --red-2:#ff4444;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg-0); color:var(--txt);
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Russo One',sans-serif}
+  .rank-num{
+    font-family:'Russo One',sans-serif; font-style:italic;
+    background:linear-gradient(180deg,#fff,#7d8aa0);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .glow-red{text-shadow:0 0 24px rgba(255,0,0,.45)}
+  ::-webkit-scrollbar{height:8px;width:8px}
+  ::-webkit-scrollbar-thumb{background:var(--bg-3);border-radius:8px}
+  .tabs::-webkit-scrollbar{height:0}
+  .row{transition:background .15s,border-color .15s,transform .15s}
+  .row:hover{background:var(--bg-2);border-color:var(--border-strong)}
+  a{color:inherit;text-decoration:none}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Space Grotesk'; src: url("../fonts/spacegrotesk-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../fonts/spacegrotesk-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../fonts/spacegrotesk-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../fonts/spacegrotesk-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../fonts/spacegrotesk-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Russo One'; src: url("../fonts/russoone-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }</style></head>
+<body>
+
+<!-- ===== Top bar ===== -->
+<header class="sticky top-0 z-30 backdrop-blur-md" style="background:rgba(12,17,27,.85);border-bottom:1px solid var(--border)">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    <a href="#" class="flex items-center gap-2.5">
+      <span id="logo" class="display text-xl tracking-tight" style="background:linear-gradient(90deg,#ff0000,#ff6666);-webkit-background-clip:text;background-clip:text;color:transparent">MCTIERS</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-sm" style="color:var(--txt-2)">
+      <a href="#rankings" class="hover:text-white">Rankings</a>
+      <a href="/tierlist" class="hover:text-white">Tier List</a>
+      <a href="#info" class="hover:text-white">Information</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <span class="hidden sm:flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg" style="background:var(--bg-2);border:1px solid var(--border)">
+        <span style="color:var(--txt-mut)">Server IP</span>
+        <span id="serverIp" class="font-semibold">mcpvp.club</span>
+      </span>
+      <a id="discordBtn" href="https://www.discord.gg/mcpvp" target="_blank" class="text-sm font-semibold px-4 py-2 rounded-lg" style="background:var(--red);color:#fff">Discord</a>
+      <a href="/admin" class="text-sm font-semibold px-3 py-2 rounded-lg" style="background:var(--bg-2);color:var(--txt-2);border:1px solid var(--border)">Admin</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-6">
+  <p class="text-xs font-semibold tracking-[0.25em] uppercase mb-3" style="color:var(--red-2)">Minecraft's premier PvP ranking platform</p>
+  <h1 class="display text-4xl sm:text-6xl leading-[1.05] tracking-tight">
+    Overall <span class="glow-red" style="color:var(--red)">Rankings</span>
+  </h1>
+  <p class="mt-4 max-w-2xl text-base sm:text-lg" style="color:var(--txt-2)">
+    The definitive leaderboard of the world's best combat players — ranked by points across Vanilla, UHC, Pot, NethOP, SMP, Sword, Axe &amp; Mace.
+  </p>
+</section>
+
+<!-- ===== Category tabs ===== -->
+<div class="max-w-6xl mx-auto px-4 sm:px-6">
+  <div class="tabs flex gap-2 overflow-x-auto pb-3" id="tabs"></div>
+</div>
+
+<!-- ===== Rankings ===== -->
+<main id="rankings" class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+  <!-- column header -->
+  <div class="hidden sm:grid items-center gap-4 px-4 py-3 text-xs uppercase tracking-wider" style="grid-template-columns:56px 1fr 70px 2fr;color:var(--txt-mut)">
+    <div>#</div><div>Player</div><div>Region</div><div>Tiers</div>
+  </div>
+  <div id="board" class="flex flex-col gap-2"></div>
+
+  <p class="text-center text-xs mt-10" style="color:var(--txt-mut)">© MCTiers 2025 · Recreated demo leaderboard</p>
+</main>
+
+<script>
+let SKINS = {
+  ItzRealMe:"https://api.moda.app/api/v2/images/ref/d7b78648-2c00-45cf-a0a9-4ac683791463?v=ac6ad60b&s=bb6ccc3cc0d464073ea90add6f06030b",
+  coldified:"https://api.moda.app/api/v2/images/ref/57b3a615-2d91-4ba2-918d-4a32142497c2?v=8e6b0110&s=8a60708c908d9d331180cfa9752bf279",
+};
+const FALLBACK="https://api.moda.app/api/v2/images/ref/716b1efb-7d34-45db-bbec-a5b0a98fe598?v=721c8945&s=31d666b1ee32ddb0ea87580736c63160";
+
+let CATS=[
+  {n:"Overall",c:"#ff0000",a:true},{n:"LTMs",c:"#a855f7"},{n:"Vanilla",c:"#22c55e"},
+  {n:"UHC",c:"#ef4444"},{n:"Pot",c:"#ec4899"},{n:"NethOP",c:"#f97316"},
+  {n:"SMP",c:"#14b8a6"},{n:"Sword",c:"#38bdf8"},{n:"Axe",c:"#eab308"},{n:"Mace",c:"#8b5cf6"}
+];
+let MODE_C={Sword:"#38bdf8",Axe:"#eab308",Mace:"#8b5cf6",Vanilla:"#22c55e",UHC:"#ef4444",Pot:"#ec4899",NethOP:"#f97316",SMP:"#14b8a6"};
+let MODE_AB={Sword:"SW",Axe:"AX",Mace:"MC",Vanilla:"VA",UHC:"UH",Pot:"PO",NethOP:"NE",SMP:"SM"};
+
+let PLAYERS=[
+ {r:1,n:"ItzRealMe",reg:"NA",title:"Combat Master",pts:330,t:{Sword:"HT3",NethOP:"HT1",SMP:"HT1",Vanilla:"HT1",Pot:"HT1",Mace:"LT2",UHC:"LT2",Axe:"LT2"}},
+ {r:2,n:"coldified",reg:"EU",title:"Combat Master",pts:326,t:{Pot:"LT1",Mace:"LT1",Vanilla:"LT3",UHC:"HT1",SMP:"HT1",Sword:"LT1",Axe:"LT1",NethOP:"LT2"}},
+ {r:3,n:"Swight",reg:"NA",title:"Combat Master",pts:290,t:{Pot:"HT3",Vanilla:"LT3",Axe:"HT1",UHC:"HT1",SMP:"HT1",NethOP:"HT2",Mace:"LT2",Sword:"LT2"}},
+ {r:4,n:"janekv",reg:"EU",title:"Combat Master",pts:260,t:{Mace:"LT3",Vanilla:"HT4",SMP:"HT1",Pot:"HT1",NethOP:"HT1",Sword:"HT2",Axe:"LT2",UHC:"LT2"}},
+ {r:5,n:"BlvckWlf",reg:"EU",title:"Combat Ace",pts:226,t:{Sword:"HT3",NethOP:"LT3",Vanilla:"LT3",SMP:"HT1",UHC:"HT1",Axe:"HT2",Mace:"HT2",Pot:"LT2"}},
+ {r:5,n:"Kylaz",reg:"NA",title:"Combat Ace",pts:226,t:{SMP:"HT3",UHC:"LT3",Vanilla:"LT3",Sword:"HT1",NethOP:"HT1",Pot:"HT1",Axe:"LT2"}},
+ {r:7,n:"ninorc15",reg:"EU",title:"Combat Ace",pts:196,t:{SMP:"LT3",Vanilla:"LT3",UHC:"LT1",Sword:"LT2",Axe:"LT2",Pot:"LT2",NethOP:"LT2",Mace:"LT2"}},
+ {r:8,n:"Lurrn",reg:"EU",title:"Combat Ace",pts:186,t:{UHC:"LT3",Axe:"LT4",NethOP:"HT1",Pot:"HT1",Vanilla:"HT2",Sword:"LT2"}},
+ {r:9,n:"yMiau",reg:"EU",title:"Combat Ace",pts:177,t:{Sword:"HT3",NethOP:"LT3",Pot:"LT3",Vanilla:"LT3",Mace:"LT3",UHC:"HT1",SMP:"LT1",Axe:"HT2"}},
+ {r:10,n:"Juan_Clean",reg:"NA",title:"Combat Ace",pts:165,t:{Sword:"HT3",SMP:"LT3",NethOP:"LT3",Pot:"LT3",UHC:"HT1",Axe:"LT1"}},
+];
+
+const REG_C={NA:"#22c55e",EU:"#38bdf8",AS:"#a855f7",AU:"#f97316",SA:"#eab308",ME:"#ec4899"};
+function tierColor(t){
+  if(!t)return"#7d8aa0";
+  if(t.startsWith("HT1"))return"#ffd24a";
+  if(t.startsWith("HT"))return"#9bd1ff";
+  if(t.startsWith("LT1"))return"#ff9a3d";
+  return"#7d8aa0";
+}
+
+// ----- Apply admin overrides saved from /admin (localStorage) -----
+(function(){
+  let saved;try{saved=JSON.parse(localStorage.getItem("mctiers_data_v1"))}catch(e){}
+  if(!saved)return;
+  const PAL=["#38bdf8","#8b5cf6","#ec4899","#22c55e","#ef4444","#f97316","#eab308","#14b8a6","#a855f7","#f43f5e","#0ea5e9","#84cc16"];
+  if(Array.isArray(saved.cats)){
+    CATS=[{n:"Overall",c:"#ff0000",a:true}].concat(saved.cats.map((n,i)=>({n,c:PAL[i%PAL.length]})));
+    MODE_C={};MODE_AB={};
+    saved.cats.forEach((n,i)=>{MODE_C[n]=PAL[i%PAL.length];MODE_AB[n]=n.slice(0,2).toUpperCase();});
+  }
+  if(Array.isArray(saved.players)){
+    SKINS={};
+    const ps=saved.players.filter(p=>p.name).slice().sort((a,b)=>(b.pts||0)-(a.pts||0));
+    PLAYERS=ps.map((p,i)=>{if(p.skin)SKINS[p.name]=p.skin;return{r:i+1,n:p.name,reg:p.reg||"NA",title:p.title||"",pts:p.pts||0,t:p.t||{}};});
+  }
+  const s=saved.site||{};
+  const logo=document.getElementById("logo");if(logo&&s.name)logo.textContent=s.name;
+  const ip=document.getElementById("serverIp");if(ip&&s.ip)ip.textContent=s.ip;
+  if(s.discord){const d=document.getElementById("discordBtn");if(d)d.href=s.discord;}
+})();
+
+// tabs
+document.getElementById("tabs").innerHTML=CATS.map(c=>`
+  <button class="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap"
+    style="${c.a?`background:${c.c};color:#fff;box-shadow:0 6px 20px ${c.c}55`:`background:var(--bg-2);color:var(--txt-2);border:1px solid var(--border)`}">
+    <span style="width:8px;height:8px;border-radius:50%;background:${c.a?'#fff':c.c};display:inline-block"></span>${c.n}
+  </button>`).join("");
+
+// rows
+document.getElementById("board").innerHTML=PLAYERS.map(p=>{
+  const skin=SKINS[p.n]||FALLBACK;
+  const tiers=Object.entries(p.t).map(([m,v])=>`
+    <span class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-semibold" style="background:var(--bg-1);border:1px solid var(--border)">
+      <span class="display" style="font-size:10px;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:${MODE_C[m]}22;color:${MODE_C[m]}">${MODE_AB[m]}</span>
+      <span style="color:${tierColor(v)}">${v}</span>
+    </span>`).join("");
+  const top3=p.r<=3;
+  return `
+  <div class="row rounded-2xl px-3 sm:px-4 py-3 grid items-center gap-3 sm:gap-4"
+       style="background:var(--bg-1);border:1px solid ${top3?'var(--border-strong)':'var(--border)'};grid-template-columns:48px 1fr;${'--g:1'};">
+    <div class="sm:hidden" style="grid-column:1/3">
+      <div class="grid items-center gap-3" style="grid-template-columns:44px 1fr auto">
+        <span class="rank-num text-2xl ${top3?'glow-red':''}">${p.r}</span>
+        <div class="flex items-center gap-3 min-w-0">
+          <img src="${skin}" alt="${p.n}" class="w-9 h-9 rounded-lg object-cover object-top" style="image-rendering:pixelated;background:var(--bg-3)">
+          <div class="min-w-0">
+            <div class="font-semibold truncate">${p.n}</div>
+            <div class="text-xs truncate" style="color:var(--txt-mut)">${p.title} · ${p.pts} pts</div>
+          </div>
+        </div>
+        <span class="text-xs font-bold px-2 py-1 rounded-md" style="background:${REG_C[p.reg]}22;color:${REG_C[p.reg]}">${p.reg}</span>
+      </div>
+      <div class="flex flex-wrap gap-1.5 mt-3">${tiers}</div>
+    </div>
+
+    <div class="hidden sm:grid items-center gap-4" style="grid-column:1/3;grid-template-columns:56px 1fr 70px 2fr">
+      <span class="rank-num text-3xl ${top3?'glow-red':''}">${p.r}</span>
+      <div class="flex items-center gap-3 min-w-0">
+        <img src="${skin}" alt="${p.n}" class="w-11 h-11 rounded-lg object-cover object-top" style="image-rendering:pixelated;background:var(--bg-3)">
+        <div class="min-w-0">
+          <div class="font-semibold text-lg leading-tight truncate">${p.n}</div>
+          <div class="text-xs" style="color:var(--txt-mut)">${p.title} · <span style="color:var(--txt-2)">${p.pts} points</span></div>
+        </div>
+      </div>
+      <span class="justify-self-start text-xs font-bold px-2.5 py-1 rounded-md" style="background:${REG_C[p.reg]}22;color:${REG_C[p.reg]}">${p.reg}</span>
+      <div class="flex flex-wrap gap-1.5">${tiers}</div>
+    </div>
+  </div>`;
+}).join("");
+</script>
+
+</body></html>
