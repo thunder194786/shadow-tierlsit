@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCTiers — Combat Tier List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Russo+One&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0c111b; --bg-1:#121822; --bg-2:#1a2332; --bg-3:#232f3f;
+    --border:#3a4a5a4d; --border-strong:#3a4a5ab3;
+    --txt:#ffffff; --txt-2:#b0b0b0; --txt-mut:#808080; --red:#ff0000;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg-0);color:var(--txt);font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .display{font-family:'Russo One',sans-serif}
+  .glow-red{text-shadow:0 0 24px rgba(255,0,0,.45)}
+  a{color:inherit;text-decoration:none}
+  .card{transition:transform .18s cubic-bezier(.2,.8,.3,1.3),box-shadow .18s}
+  .card:hover{transform:translateY(-8px) scale(1.18);box-shadow:0 16px 40px rgba(0,0,0,.6);z-index:5}
+  .card:hover img{border-color:var(--red)!important;box-shadow:0 0 22px rgba(255,0,0,.5)}
+  .cat-tab.active{background:var(--red)!important;color:#fff!important;border-color:transparent!important}
+  ::-webkit-scrollbar{height:8px;width:8px}::-webkit-scrollbar-thumb{background:var(--bg-3);border-radius:8px}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Space Grotesk'; src: url("../../fonts/spacegrotesk-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../../fonts/spacegrotesk-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../../fonts/spacegrotesk-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../../fonts/spacegrotesk-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url("../../fonts/spacegrotesk-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Russo One'; src: url("../../fonts/russoone-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }</style></head>
+<body>
+
+<header class="sticky top-0 z-30 backdrop-blur-md" style="background:rgba(12,17,27,.85);border-bottom:1px solid var(--border)">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    
+    <nav class="hidden md:flex items-center gap-6 text-sm" style="color:var(--txt-2)">
+      <a href="/" class="hover:text-white">Rankings</a>
+      <a href="/tierlist" class="text-white">Tier List</a>
+      <a href="#" class="hover:text-white">Information</a>
+    </nav><a id="logo" href="/" class="display text-xl tracking-tight" style="background:linear-gradient(90deg,#ff0000,#ff6666);-webkit-background-clip:text;background-clip:text;color:transparent">Shadow Tier List</a>
+    <div class="flex items-center gap-2">
+      <a id="discordBtn" href="https://www.discord.gg/mcpvp" target="_blank" class="text-sm font-semibold px-4 py-2 rounded-lg" style="background:var(--red);color:#fff">Discord</a>
+      <a href="/admin" class="text-sm font-semibold px-3 py-2 rounded-lg" style="background:var(--bg-2);color:var(--txt-2);border:1px solid var(--border)">Admin</a>
+    </div>
+  </div>
+</header>
+
+<section class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-8">
+  <p id="heroEyebrow" class="text-xs font-semibold tracking-[0.25em] uppercase mb-3" style="color:#ff6666">Community Tier List</p>
+  <h1 id="heroTitle" class="display text-4xl sm:text-6xl leading-[1.05] tracking-tight">Combat <span class="glow-red" style="color:var(--red)">Tier List</span></h1>
+  <p id="heroSub" class="mt-4 max-w-2xl text-base sm:text-lg" style="color:var(--txt-2)">Ranking the community's best PvP players from <b style="color:#fff">S</b> (god-tier) down to <b style="color:#fff">D</b>. Featuring Keya, Tara &amp; Shadow.</p>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+  <!-- Search bar -->
+  <div class="flex flex-col sm:flex-row gap-2 mb-3">
+    <input id="searchInput" placeholder="Search your username to see your tier…" onkeydown="if(event.key==='Enter')doSearch()" class="flex-1" style="background:var(--bg-2);border:1px solid var(--border);color:#fff;border-radius:12px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none">
+    <button onclick="doSearch()" class="font-semibold px-6 py-3 rounded-xl text-sm" style="background:var(--red);color:#fff">Search</button>
+  </div>
+  <p id="searchMsg" class="text-sm mb-4" style="min-height:18px;color:#ff6666"></p>
+
+  <!-- Category tabs -->
+  <div id="cats" class="flex gap-2 overflow-x-auto pb-4 mb-2" style="scrollbar-width:none"></div>
+
+  <div id="tiers" class="flex flex-col gap-3"></div>
+  <div id="catRank" class="flex flex-col gap-2" style="display:none"></div>
+
+  <h2 class="display text-lg mt-12 mb-3" style="color:var(--txt-2)"><a id="logo" href="https://moda.app/" class="display text-xl tracking-tight" style="font-size: 20px; line-height: 1.4; --tw-tracking: -0.025em; letter-spacing: -0.5px; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: text; user-select: text; border-color: rgba(0, 0, 0, 0) !important; text-decoration-style: solid !important; text-decoration-color: rgba(0, 0, 0, 0) !important; background-color: rgba(0, 0, 0, 0) !important; background-image: linear-gradient(90deg, rgb(255, 0, 0), rgb(255, 102, 102)) !important; opacity: 1 !important; filter: none !important; box-shadow: none !important;">Shadow</a>'s Owners</h2>
+  <div id="pool" class="flex flex-wrap gap-3 p-4 rounded-2xl" style="background:var(--bg-1);border:1px dashed var(--border-strong)"></div>
+
+  <p class="text-center text-xs mt-12" style="color:var(--txt-mut)">© ShadowTiers 2025 · Community tier list</p>
+</main>
+
+<script>
+let CATS=[
+  {n:"Sword",c:"#38bdf8"},{n:"Mace",c:"#8b5cf6"},{n:"Crystal",c:"#ec4899"},
+  {n:"Vanilla",c:"#22c55e"},{n:"UHC",c:"#ef4444"},{n:"Pot",c:"#f97316"},
+  {n:"NethOP",c:"#eab308"},{n:"SMP",c:"#14b8a6"},{n:"Axe",c:"#a855f7"}
+];
+const FALLBACK="https://api.moda.app/api/v2/images/ref/716b1efb-7d34-45db-bbec-a5b0a98fe598?v=721c8945&s=31d666b1ee32ddb0ea87580736c63160";
+let SKINS={
+  ItzRealMe:"https://api.moda.app/api/v2/images/ref/d7b78648-2c00-45cf-a0a9-4ac683791463?v=ac6ad60b&s=bb6ccc3cc0d464073ea90add6f06030b",
+  coldified:"https://api.moda.app/api/v2/images/ref/57b3a615-2d91-4ba2-918d-4a32142497c2?v=8e6b0110&s=8a60708c908d9d331180cfa9752bf279",
+};
+let TIERS=[
+  {t:"S",c:"#ff3b3b",players:["Keya","ItzRealMe","Shadow"]},
+  {t:"A",c:"#ff9a3d",players:["Tara","coldified","Swight"]},
+  {t:"B",c:"#ffd24a",players:["janekv","BlvckWlf","Kylaz"]},
+  {t:"C",c:"#22c55e",players:["ninorc15","Lurrn"]},
+  {t:"D",c:"#38bdf8",players:["yMiau","Juan_Clean"]},
+];
+let POOL=[{name:"Frost",img:""},{name:"Nova",img:""},{name:"Riven",img:""},{name:"Ace",img:""},{name:"Vex",img:""}];
+
+// Per-player profile: points + tier in each category
+let PROFILES={
+  Keya:{title:"Combat Master",pts:312,t:{Sword:"HT1",Mace:"HT2",Crystal:"HT1",Vanilla:"LT1",UHC:"HT2",Pot:"HT1",NethOP:"LT2",SMP:"HT1"}},
+  Shadow:{title:"Combat Master",pts:298,t:{Sword:"HT2",Mace:"HT1",Crystal:"HT2",UHC:"HT1",Pot:"LT1",SMP:"HT2",Axe:"HT1"}},
+  Tara:{title:"Combat Ace",pts:241,t:{Sword:"LT1",Crystal:"HT2",Vanilla:"HT2",Pot:"HT1",SMP:"LT1",Mace:"LT2"}},
+  ItzRealMe:{title:"Combat Master",pts:330,t:{Sword:"HT3",NethOP:"HT1",SMP:"HT1",Vanilla:"HT1",Pot:"HT1",Mace:"LT2",UHC:"LT2",Axe:"LT2"}},
+  coldified:{title:"Combat Master",pts:326,t:{Pot:"LT1",Mace:"LT1",Vanilla:"LT3",UHC:"HT1",SMP:"HT1",Sword:"LT1",Axe:"LT1",NethOP:"LT2"}},
+  Swight:{title:"Combat Master",pts:290,t:{Pot:"HT3",Vanilla:"LT3",Axe:"HT1",UHC:"HT1",SMP:"HT1",NethOP:"HT2",Mace:"LT2",Sword:"LT2"}},
+  janekv:{title:"Combat Master",pts:260,t:{Mace:"LT3",Vanilla:"HT4",SMP:"HT1",Pot:"HT1",NethOP:"HT1",Sword:"HT2",Axe:"LT2",UHC:"LT2"}},
+  BlvckWlf:{title:"Combat Ace",pts:226,t:{Sword:"HT3",NethOP:"LT3",Vanilla:"LT3",SMP:"HT1",UHC:"HT1",Axe:"HT2",Mace:"HT2",Pot:"LT2"}},
+  Kylaz:{title:"Combat Ace",pts:226,t:{SMP:"HT3",UHC:"LT3",Vanilla:"LT3",Sword:"HT1",NethOP:"HT1",Pot:"HT1",Axe:"LT2"}},
+  ninorc15:{title:"Combat Ace",pts:196,t:{SMP:"LT3",Vanilla:"LT3",UHC:"LT1",Sword:"LT2",Axe:"LT2",Pot:"LT2",NethOP:"LT2",Mace:"LT2"}},
+  Lurrn:{title:"Combat Ace",pts:186,t:{UHC:"LT3",Axe:"LT4",NethOP:"HT1",Pot:"HT1",Vanilla:"HT2",Sword:"LT2"}},
+  yMiau:{title:"Combat Ace",pts:177,t:{Sword:"HT3",NethOP:"LT3",Pot:"LT3",Vanilla:"LT3",Mace:"LT3",UHC:"HT1",SMP:"LT1",Axe:"HT2"}},
+  Juan_Clean:{title:"Combat Ace",pts:165,t:{Sword:"HT3",SMP:"LT3",NethOP:"LT3",Pot:"LT3",UHC:"HT1",Axe:"LT1"}},
+};
+function tierColor(t){if(!t)return"#7d8aa0";if(t.startsWith("HT1"))return"#ffd24a";if(t.startsWith("HT"))return"#9bd1ff";if(t.startsWith("LT1"))return"#ff9a3d";return"#7d8aa0";}
+
+// ----- Apply admin overrides saved from /admin (localStorage) -----
+(function(){
+  let saved; try{saved=JSON.parse(localStorage.getItem("mctiers_data_v1"))}catch(e){}
+  if(!saved)return;
+  const PAL=["#38bdf8","#8b5cf6","#ec4899","#22c55e","#ef4444","#f97316","#eab308","#14b8a6","#a855f7","#f43f5e","#0ea5e9","#84cc16"];
+  if(Array.isArray(saved.cats))CATS=saved.cats.map((n,i)=>({n,c:PAL[i%PAL.length]}));
+  if(Array.isArray(saved.players)){
+    SKINS={};PROFILES={};
+    const rows={S:[],A:[],B:[],C:[],D:[]};
+    saved.players.forEach(p=>{
+      if(!p.name)return;
+      if(p.skin)SKINS[p.name]=p.skin;
+      PROFILES[p.name]={title:p.title||"",pts:p.pts||0,t:p.t||{}};
+      (rows[p.row]||rows.C).push(p.name);
+    });
+    const RC={S:"#ff3b3b",A:"#ff9a3d",B:"#ffd24a",C:"#22c55e",D:"#38bdf8"};
+    TIERS=["S","A","B","C","D"].map(t=>({t,c:RC[t],players:rows[t]}));
+  }
+  if(Array.isArray(saved.pool)){
+    POOL=saved.pool.filter(p=>p&&p.name).map(p=>({name:p.name,img:p.img||""}));
+  }
+  const s=saved.site||{};
+  const set=(id,v)=>{const el=document.getElementById(id);if(el&&v)el.textContent=v;};
+  set("logo",s.name);set("heroEyebrow",s.eyebrow);set("heroTitle",s.title);set("heroSub",s.sub);
+  if(s.discord){const d=document.getElementById("discordBtn");if(d)d.href=s.discord;}
+})();
+
+function poolCard(p){
+  const skin=p.img||FALLBACK;
+  return `<div class="card flex flex-col items-center gap-1 w-[72px] sm:w-20 select-none">
+    <img src="${skin}" alt="${p.name}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover object-top" style="image-rendering:pixelated;background:var(--bg-3);border:1px solid var(--border)">
+    <span class="text-[11px] font-semibold truncate w-full text-center">${p.name}</span>
+  </div>`;
+}
+function card(n){
+  const skin=SKINS[n]||FALLBACK;
+  const clickable=PROFILES[n]?`onclick="openProfile('${n}')" title="View ${n}'s tiers"`:"";
+  return `<div ${clickable} class="card flex flex-col items-center gap-1 w-[72px] sm:w-20 cursor-pointer select-none">
+    <img src="${skin}" alt="${n}" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover object-top" style="image-rendering:pixelated;background:var(--bg-3);border:1px solid var(--border)">
+    <span class="text-[11px] font-semibold truncate w-full text-center">${n}</span>
+  </div>`;
+}
+
+// category tabs
+function renderTabs(active){
+  document.getElementById("cats").innerHTML=
+    `<button class="cat-tab shrink-0 px-4 py-2 rounded-xl text-sm font-semibold ${active===null?'active':''}" onclick="selectCat(null)" style="background:var(--bg-2);color:var(--txt-2);border:1px solid var(--border)">Overall</button>`
+    +CATS.map(c=>`
+    <button class="cat-tab shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap ${active===c.n?'active':''}" onclick="selectCat('${c.n}')" style="background:var(--bg-2);color:var(--txt-2);border:1px solid var(--border)">
+      <span style="width:8px;height:8px;border-radius:50%;background:${c.c};display:inline-block"></span>${c.n}
+    </button>`).join("");
+}
+
+// tier string -> score (lower is better): HT1=2,LT1=3,HT2=4,LT2=5…
+function tierScore(t){if(!t)return 999;const m=/^([HL])T?(\d+)/i.exec(t);if(!m)return 999;const num=+m[2];return num*2+(m[1].toUpperCase()==="H"?0:1);}
+
+function selectCat(cat){
+  renderTabs(cat);
+  const tiersEl=document.getElementById("tiers"), rankEl=document.getElementById("catRank");
+  if(cat===null){tiersEl.style.display="flex";rankEl.style.display="none";return;}
+  tiersEl.style.display="none";rankEl.style.display="flex";
+  const c=CATS.find(x=>x.n===cat)||{c:"#ff6666"};
+  const ranked=Object.keys(PROFILES).filter(n=>PROFILES[n].t&&PROFILES[n].t[cat])
+    .sort((a,b)=>tierScore(PROFILES[a].t[cat])-tierScore(PROFILES[b].t[cat])||PROFILES[b].pts-PROFILES[a].pts);
+  rankEl.innerHTML=`<div class="flex items-center gap-2 mb-1"><span style="width:10px;height:10px;border-radius:50%;background:${c.c};display:inline-block"></span><span class="display text-lg">${cat} — Top Players</span></div>`
+    + (ranked.length?ranked.map((n,i)=>{
+        const p=PROFILES[n],skin=SKINS[n]||FALLBACK,t=p.t[cat];
+        const medal=i===0?"#ffd24a":i===1?"#c0c8d4":i===2?"#cd7f32":"var(--txt-mut)";
+        return `<div onclick="openProfile('${n}')" class="flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer" style="background:var(--bg-1);border:1px solid var(--border)">
+          <span class="display text-xl w-8 text-center" style="color:${medal}">${i+1}</span>
+          <img src="${skin}" class="w-10 h-10 rounded-lg object-cover object-top" style="image-rendering:pixelated;background:var(--bg-3);border:1px solid var(--border)">
+          <div class="flex-1 min-w-0"><div class="font-semibold truncate">${n}</div><div class="text-xs" style="color:var(--txt-mut)">${p.title||''}</div></div>
+          <span class="font-bold text-sm" style="color:${tierColor(t)}">${t}</span>
+        </div>`;
+      }).join("")
+      :`<p class="text-sm" style="color:var(--txt-mut)">No ranked players in this category yet.</p>`);
+}
+
+// ----- Search -----
+function doSearch(){
+  const q=document.getElementById("searchInput").value.trim().toLowerCase();
+  const msg=document.getElementById("searchMsg");
+  if(!q){msg.textContent="Type a username first.";return;}
+  const match=Object.keys(PROFILES).find(n=>n.toLowerCase()===q)
+    || Object.keys(PROFILES).find(n=>n.toLowerCase().includes(q));
+  if(match){msg.textContent="";openProfile(match);}
+  else{msg.textContent=`No player found for “${document.getElementById("searchInput").value.trim()}”.`;}
+}
+
+// ----- First-visit username gate -----
+function saveUsername(){
+  const v=document.getElementById("unameInput").value.trim();
+  if(!v){document.getElementById("unameErr").textContent="Please enter a username.";return;}
+  localStorage.setItem("mctiers_visitor",v);
+  document.getElementById("welcome").style.display="none";
+}
+if(!localStorage.getItem("mctiers_visitor")){
+  window.addEventListener("DOMContentLoaded",()=>{document.getElementById("welcome").style.display="flex";});
+}
+
+function openProfile(n){
+  const p=PROFILES[n];if(!p)return;
+  const skin=SKINS[n]||FALLBACK;
+  const rows=CATS.filter(c=>p.t[c.n]).map(c=>`
+    <div class="flex items-center justify-between px-3 py-2 rounded-lg" style="background:var(--bg-2)">
+      <span class="flex items-center gap-2 text-sm font-medium"><span style="width:9px;height:9px;border-radius:50%;background:${c.c};display:inline-block"></span>${c.n}</span>
+      <span class="font-bold text-sm" style="color:${tierColor(p.t[c.n])}">${p.t[c.n]}</span>
+    </div>`).join("");
+  document.getElementById("modalBody").innerHTML=`
+    <div class="flex items-center gap-4 mb-5">
+      <img src="${skin}" class="w-16 h-16 rounded-xl object-cover object-top" style="image-rendering:pixelated;background:var(--bg-3);border:1px solid var(--border)">
+      <div>
+        <div class="display text-2xl">${n}</div>
+        <div class="text-sm" style="color:var(--txt-mut)">${p.title}</div>
+        <div class="mt-1 text-sm font-bold" style="color:#ff6666">${p.pts} points</div>
+      </div>
+    </div>
+    <div class="text-xs uppercase tracking-wider mb-2" style="color:var(--txt-mut)">Tiers by category</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${rows}</div>`;
+  document.getElementById("modal").style.display="flex";
+}
+function closeProfile(){document.getElementById("modal").style.display="none";}
+
+document.getElementById("tiers").innerHTML=TIERS.map(r=>`
+  <div class="flex rounded-2xl overflow-hidden" style="background:var(--bg-1);border:1px solid var(--border)">
+    <div class="display flex items-center justify-center shrink-0 w-16 sm:w-20 text-3xl sm:text-4xl"
+         style="background:${r.c}1f;color:${r.c};text-shadow:0 0 18px ${r.c}66">${r.t}</div>
+    <div class="flex flex-wrap gap-3 p-3 sm:p-4 flex-1" style="border-left:1px solid var(--border)">
+      ${r.players.map(card).join("")}
+    </div>
+  </div>`).join("");
+
+document.getElementById("pool").innerHTML=POOL.map(poolCard).join("");
+renderTabs(null);
+</script>
+
+<!-- Player modal -->
+<div id="modal" onclick="if(event.target===this)closeProfile()" style="display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px">
+  <div style="background:var(--bg-1);border:1px solid var(--border-strong);border-radius:20px;max-width:480px;width:100%;padding:24px;position:relative">
+    <button onclick="closeProfile()" class="absolute" style="top:14px;right:16px;color:var(--txt-mut);font-size:22px;line-height:1;background:none;border:none;cursor:pointer">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- First-visit welcome / username gate -->
+<div id="welcome" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(8,11,18,.92);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px">
+  <div style="background:var(--bg-1);border:1px solid var(--border-strong);border-radius:20px;max-width:400px;width:100%;padding:32px">
+    <div class="display text-2xl mb-1" style="background:linear-gradient(90deg,#ff0000,#ff6666);-webkit-background-clip:text;background-clip:text;color:transparent">WELCOME</div>
+    <p class="text-sm mb-5" style="color:var(--txt-2)">Enter your Minecraft username to get started, then search the tier list to find your rank.</p>
+    <input id="unameInput" placeholder="Your username" onkeydown="if(event.key==='Enter')saveUsername()" style="width:100%;background:var(--bg-2);border:1px solid var(--border);color:#fff;border-radius:10px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none">
+    <p id="unameErr" class="text-sm" style="color:#ff6666;height:18px;margin:8px 0 0"></p>
+    <button onclick="saveUsername()" class="font-semibold w-full mt-3 rounded-xl" style="background:var(--red);color:#fff;border:none;padding:12px;cursor:pointer;font-family:inherit">Continue</button>
+  </div>
+</div>
+
+</body></html>
